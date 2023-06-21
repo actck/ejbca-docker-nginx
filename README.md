@@ -191,7 +191,7 @@ ejbca            ***************************************************************
 
 </details>
 
-#### Image 1
+#### STEP 1
 
 On your host, check the ip address with `ip address` and on you computer with the web browser (firefox in my case).
 Access to the URL below (which is the temporary url that allow enroll throug UI)
@@ -208,7 +208,7 @@ Enter the username and password showed in the previous logs, in my example user:
 </details>
 
 
-#### Image 2
+#### STEP 2
 
 - Choose the key Specification according to the ManagementCA wich is create with RSA2048. Select ENDUSER.
 
@@ -222,7 +222,7 @@ Click enroll, it will download the superadmin.p12.
 </details>
 
 
-#### Image 3
+#### STEP 3
 
 Go to Security in Firefox > Certificates > Import and import it, type the password showed in the previous logs.
 <details>
@@ -232,7 +232,7 @@ Go to Security in Firefox > Certificates > Import and import it, type the passwo
   
 </details>
 
-#### Image 4
+#### STEP 4
 And now you access again the PKI UI, a pop up displays, accept the risk
 
 
@@ -243,7 +243,7 @@ And now you access again the PKI UI, a pop up displays, accept the risk
   
 </details>
 
-#### Image 5
+#### STEP 5
 And you have now access to the adminweb thanks to the SuperAdmin certificate.
 <details>
 <summary> Click to view image of enrolment </summary>
