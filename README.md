@@ -166,6 +166,10 @@ docker compose logs -f
 At the end of the deployment, you will see some indications on how to get the SuperAdmin.p12 certificate.
 At the moment (21 June 2023) there is a bug and we can not enroll the Initial SuperAdmin through the UI ([check](https://github.com/Keyfactor/ejbca-ce/discussions/302#discussioncomment-6228311)) 
 
+<details>
+
+<summary> Logs showing username and password for SuperAdmin.p12 </summary>
+
 ```
 Health check now reports application status at /ejbca/publicweb/healthcheck/ejbcahealth
 ejbca            *********************************************************************************************
@@ -183,6 +187,9 @@ ejbca            *                                                              
 ejbca            *********************************************************************************************
 
 ```
+
+</details>
+
 
 On your host, check the ip address with `ip address` and on you computer with the web browser (firefox in my case).
 Access to the URL below (which is the temporary url that allow enroll throug UI)
@@ -209,6 +216,8 @@ And now you access again the PKI UI, a pop up displays, accept the risk
 And you have now access to the adminweb thanks to the SuperAdmin certificate.
 
 ![image](https://github.com/s0p4L1N/ejbca-docker-nginx/assets/92848369/b2e67666-530e-4d10-a992-556c7f0125e9)
+
+Now, you will deploy NGINX to use it as fronted for EJBCA.
 
 ## Second step - Enabled NGINX 
 
