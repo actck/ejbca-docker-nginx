@@ -157,6 +157,7 @@ networks:
 docker compose up -d
 ```
 
+### Enrolment
 - Check the logs after it is started
 
 ```
@@ -190,32 +191,66 @@ ejbca            ***************************************************************
 
 </details>
 
+#### Image 1
 
 On your host, check the ip address with `ip address` and on you computer with the web browser (firefox in my case).
 Access to the URL below (which is the temporary url that allow enroll throug UI)
 
 https://192.168.1.150/ejbca/enrol/keystore.jsp
 
-![image](https://github.com/s0p4L1N/ejbca-docker-nginx/assets/92848369/83df834b-1da4-4cd4-8468-2aa2242f3c3d)
-
 Enter the username and password showed in the previous logs, in my example user: superadmin and password: Mft/2RdSOdf8nmaQAp9dRJBr
 
+<details>
+<summary> Click to view image of enrolment </summary>
+  
+  ![image](https://github.com/s0p4L1N/ejbca-docker-nginx/assets/92848369/83df834b-1da4-4cd4-8468-2aa2242f3c3d)
+  
+</details>
+
+
+#### Image 2
+
 - Choose the key Specification according to the ManagementCA wich is create with RSA2048. Select ENDUSER.
-![image](https://github.com/s0p4L1N/ejbca-docker-nginx/assets/92848369/c14ba975-2746-458e-a5f1-9edc6af0c80a)
 
 Click enroll, it will download the superadmin.p12.
 
+<details>
+<summary> Click to view image of enrolment </summary>
+  
+  ![image](https://github.com/s0p4L1N/ejbca-docker-nginx/assets/92848369/c14ba975-2746-458e-a5f1-9edc6af0c80a)
+  
+</details>
+
+
+#### Image 3
+
 Go to Security in Firefox > Certificates > Import and import it, type the password showed in the previous logs.
+<details>
+<summary> Click to view image of enrolment </summary>
+  
+  ![image](https://github.com/s0p4L1N/ejbca-docker-nginx/assets/92848369/ea9ed7c0-7015-4494-add5-e9e45f0d1e54)
+  
+</details>
 
-![image](https://github.com/s0p4L1N/ejbca-docker-nginx/assets/92848369/ea9ed7c0-7015-4494-add5-e9e45f0d1e54)
-
+#### Image 4
 And now you access again the PKI UI, a pop up displays, accept the risk
 
-![image](https://github.com/s0p4L1N/ejbca-docker-nginx/assets/92848369/6a943093-7655-4fe8-858e-8740889769e2)
 
+<details>
+<summary> Click to view image of enrolment </summary>
+  
+  ![image](https://github.com/s0p4L1N/ejbca-docker-nginx/assets/92848369/6a943093-7655-4fe8-858e-8740889769e2)
+  
+</details>
+
+#### Image 5
 And you have now access to the adminweb thanks to the SuperAdmin certificate.
+<details>
+<summary> Click to view image of enrolment </summary>
+  
+  ![image](https://github.com/s0p4L1N/ejbca-docker-nginx/assets/92848369/b2e67666-530e-4d10-a992-556c7f0125e9)
 
-![image](https://github.com/s0p4L1N/ejbca-docker-nginx/assets/92848369/b2e67666-530e-4d10-a992-556c7f0125e9)
+</details>
 
 Now, you will deploy NGINX to use it as fronted for EJBCA.
 
