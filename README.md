@@ -84,6 +84,7 @@ cd docker/ejbca
 
 ## Initial configuration - EJBCA without proxy
 To start with EJBCA and docker compose, I've followed the official documentation: https://doc.primekey.com/ejbca/tutorials-and-guides/tutorial-start-out-with-ejbca-docker-container
+**I did some tweaks compare to the tutorial, such as additionnal environment key, and TLS_SETUP_ENABLED with value true instead of simple**
 
 - Create the docker compose file
 
@@ -210,7 +211,7 @@ Enter the username and password showed in the previous logs, in my example user:
 
 #### STEP 2
 
-- Choose the key Specification according to the ManagementCA wich is create with RSA2048. Select ENDUSER.
+- Choose the key Specification according to the ManagementCA wich is create with RSA 2048. Select ENDUSER.
 
 Click enroll, it will download the superadmin.p12.
 
@@ -254,7 +255,8 @@ And you have now access to the adminweb thanks to the SuperAdmin certificate.
 
 Now, you will deploy NGINX to use it as fronted for EJBCA.
 
-## Second step - Enabled NGINX 
+
+
 
 
 
