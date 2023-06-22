@@ -353,9 +353,71 @@ i9GkFEwR
 
 Now copy paste these three files into you nginx/certs folder on your host where the docker projet is. (`/opt/docker/ejbca/nginx/certs`)
 
-CA_Management.pem --> the internal 'ManagementCA' for Client Certificate Authentication verification
-management_cert.pem --> the TLS Server Certificate for the PKI itself (Nginx frontend)
-management_pvkey.pem --> the TLS Server private key 
+- CA_Management.pem --> the internal 'ManagementCA' for Client Certificate Authentication verification
+- management_cert.pem --> the TLS Server Certificate for the PKI itself (Nginx frontend)
+- management_pvkey.pem --> the TLS Server private key
+
+## Add NGINX ejbca conf
+
+1. In `/opt/docker/ejbca/nginx/conf` create ejbca.conf file and copy paste the below configuration
+
+<details>
+
+<summary> ejbca.conf </summary>
+
+```
+server {
+    listen 80;
+    server_name pki.iss.lan;
+    location / {
+        proxy_pass                              http://ejbca-node1:8081/;
+        proxy_set_header Host                   $http_host;
+        proxy_set_header X-Real-IP              $remote_addr;
+        proxy_set_header X-Forwarded-For        $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto      $scheme;
+
+        return 301 https://$host$request_uri;
+
+  }
+}
+
+
+server {
+   listen 443 ssl;
+   server_name pki.iss.lan;
+   ssl_certificate     /etc/nginx/certs/management_cert.pem;
+   ssl_certificate_key /etc/nginx/certs/management_pvkey.pem;
+
+
+   ssl_client_certificate /etc/nginx/certs/CA_Management.pem;
+   ssl_verify_client optional;
+
+
+   location / {
+
+   if ($ssl_client_verify != SUCCESS) {
+     return 403;
+   }
+
+        proxy_pass                              http://ejbca-node1:8082/;
+        proxy_set_header Host                   $http_host;
+        proxy_set_header X-Real-IP              $remote_addr;
+        proxy_set_header X-Forwarded-For        $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto      $scheme;
+        proxy_set_header SSL_CLIENT_CERT        $ssl_client_cert;
+
+    }
+
+    add_header X-Frame-Options "SAMEORIGIN" always;
+    add_header X-Content-Type-Options nosniff;
+    add_header X-XSS-Protection "1; mode=block";
+    add_header Strict-Transport-Security "max-age=31536000; includeSubdomains";
+
+
+}
+```
+</details>
+
 
 
 
