@@ -81,5 +81,17 @@ User Generated means that the requester generates their own key pair and thus th
 
 To issue a server certificate, use the EJBCA RA web interface to make a new request and enroll using your new profiles.
 
-1. In EJBCA, click RA Web to access the EJBCA RA UI.
-2. Select Make New Request from the Enroll menu.
+![Create_TLS_Enroll_Certificate](https://github.com/s0p4L1N/ejbca-docker-nginx/assets/92848369/3d9ebabf-c9e3-4535-8c17-a9a729d7746c)
+
+
+1. In EJBCA, click **RA Web** to access the EJBCA RA UI.
+2. Select **Make New Request** from the** Enroll** menu.
+3. For **Certificate Type**, select your TLS Server Profile (created in Step 1 - Create certificate profile).
+4. For **Key-pair generation**, select Provided by CA to allow you to generate it directly from EJBCA
+5. In the Provide request info, add the Common Name of the target server in the CN, Common Name field.
+6. In optionnal Subject Alternative Name Attributes, add the DNS Name of the target server
+7. In confirm request, verify all the informations are correct.
+8. Click **Download** PEM for Linux oriented, or PKCS12 for Windows oriented server.
+
+The downloaded file includes your certificate server and CA certificates for the Root CA and Sub CA.
+You have now PEM file that you can import on your server and use it with NGINX or Apache Web Server.
