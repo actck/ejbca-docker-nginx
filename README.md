@@ -140,6 +140,7 @@ services:
       - EJBCA_CLI_DEFAULTPASSWORD=changeit
       - EJBCA_CLI_DEFAULT_USERNAME=ejbca
       - EJBCA_CLI_DEFAULT_PASSWORD=changeit
+      - TZ=Europe/Paris
    ports:
       - "80:8080"
       - "443:8443"
