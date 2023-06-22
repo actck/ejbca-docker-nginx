@@ -8,7 +8,7 @@ What I did not understand was that we need first to start EJBCA container once a
 
 With the SuperAdmin.p12, you can create the ROOT CA and SUB CA and then sign a Web TLS Certificate and and the .pem cert and .pem key to NGINX.
 
-TL;DR
+# **TL;DR**
 
 1. [Prerequisites](https://github.com/s0p4L1N/ejbca-docker-nginx/blob/main/README.md#action-to-do-before-running-anything)
 2. [Run EJBCA without Nginx](https://github.com/s0p4L1N/ejbca-docker-nginx/blob/main/README.md#initial-configuration---ejbca-without-proxy)
