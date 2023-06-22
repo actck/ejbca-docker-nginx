@@ -256,8 +256,15 @@ And you have now access to the adminweb thanks to the SuperAdmin certificate.
 
 Now, you will deploy NGINX to use it as fronted for EJBCA.
 
+# Creation of ROOT, SUB CA and TLS Profile and Certs
+
+Before continuing with NGINX as frontend for EJBCA, you will need to create your PKI Hierarchy.
+The steps are commonly the same than the official documentation, I've just added some GIF procedure.
+
+- [Create PKI Hierarchy](https://github.com/s0p4L1N/ejbca-docker-nginx/blob/main/tutorial-create-a-pki-hierarchy-in-ejbca.md)
+
+- [Issue TLS Certificates](https://github.com/s0p4L1N/ejbca-docker-nginx/blob/main/tutorial-issue-tls-server-certificates-with-ejbca.md)
 
 
-
-
+# 
 
