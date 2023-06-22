@@ -11,7 +11,7 @@ With the SuperAdmin.p12, you can create the ROOT CA and SUB CA and then sign a W
 TL;DR
 
 1. [Prerequisites](https://github.com/s0p4L1N/ejbca-docker-nginx/blob/main/README.md#action-to-do-before-running-anything)
-2. Run EJBCA without Nginx
+2. [Run EJBCA without Nginx](https://github.com/s0p4L1N/ejbca-docker-nginx/blob/main/README.md#initial-configuration---ejbca-without-proxy)
 3. Creation of ROOT, SUB CA and TLS Profile and Certs
 4. Run EJBCA with NGINX
 5. Done
