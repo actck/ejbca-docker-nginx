@@ -1,4 +1,6 @@
 # ejbca-docker-nginx
+[LAB DURATION]
+
 Steps to deploy EJBCA first without proxy, then deploy the proxy and EJBCA behind it in production like and on premise.
 
 When i started my journey to deploy EJBCA CE in a production like environement, I wanted to use proxy directly to use it as fronted for EJBCA.
