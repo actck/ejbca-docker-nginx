@@ -4,7 +4,7 @@ The first step is to create a certificate profile for server TLS certificates. T
 
 To create a certificate profile for server TLS certificates, do the following:
 
-
+![Create_TLS_Server_Cert_Profile](https://github.com/s0p4L1N/ejbca-docker-nginx/assets/92848369/27b1c2b9-cdf1-4c53-8bac-e8f909f0e8a5)
 
 
 1. In EJBCA, under **CA Functions**, click **Certificate Profiles**.
@@ -40,3 +40,10 @@ Extended key usages define how the certificate and the key pair can be used. If 
 9. Click **Save** to store the certificate profile.
 
 The newly created **TLS Server Profile** is displayed in the list of certificate profiles.
+
+
+
+# Step 2 - Create end entity profile
+
+Next, create an end entity profile that allows you to define what information about holders of certificates EJBCA keeps track of and adds as subject information.
+
