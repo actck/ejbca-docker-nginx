@@ -254,7 +254,7 @@ And you have now access to the adminweb thanks to the SuperAdmin certificate.
 
 </details>
 
-Now, you will deploy NGINX to use it as fronted for EJBCA.
+See next step of PKI Creation.
 
 # Creation of ROOT, SUB CA and TLS Profile and Certs
 
@@ -265,6 +265,101 @@ The steps are commonly the same than the official documentation, I've just added
 
 - [Issue TLS Certificates](https://github.com/s0p4L1N/ejbca-docker-nginx/blob/main/tutorial-issue-tls-server-certificates-with-ejbca.md)
 
+When you are finished with theses two tutorial, come back here.
 
-# 
+# NGINX as Frontend
+
+Now, you will deploy NGINX to use it as fronted for EJBCA.
+
+1. Split the **PEM file** in two seperate file, one containing the **private key**, the other one containing the **certificates**.
+
+- Recognize the difference
+  - The private Key start by -----BEGIN PRIVATE KEY----- and end with -----END PRIVATE KEY-----
+  - The certificates start by -----BEGIN CERTIFICATE----- and end with -----END CERTIFICATE-----
+
+- The certificate file should look like below:
+<details>
+<summary> management_cert.pem </summary>
+
+``` 
+-----BEGIN CERTIFICATE-----
+MIICijCCAjGgAwIBAgIUM3QOuvRix1FSWj2nLF6hHmSHURYwCgYIKoZIzj0EAwQw
+NTEMMAoGA1UEBhMDVVNBMQwwCgYDVQQKDANVRk8xFzAVBgNVBAMMDkNvbXBhbnkg
+U1VCIENBMB4XDTIzMDYyMjA5MTM1M1oXDTI0MDYyMTA5MTM1MlowMzEMMAoGA1UE
+BhMDVVNBMQwwCgYDVQQKDANVRk8xFTATBgNVBAMMDE1hbmFnZW1lbnRDQTBZMBMG
+ByqGSM49AgEGCCqGSM49AwEHA0IABIVV76Z0itpxB3ZLXYtT0Uz5XEXttpJTJbr/
+53dLP2or9ehthtv002Pi9WbqQCbuuBy3w1mkQacUe06L0aQUTBGjggEfMIIBGzAf
+BgNVHSMEGDAWgBQ4rMurXatxuv0QarkBneScOi8IMDBjBggrBgEFBQcBAQRXMFUw
+LgYIKwYBBQUHMAKGImh0dHA6Ly9wa2kuaXNzLmxhbi9jZXJ0cy9TVUJDQS5jcnQw
+IwYIKwYBBQUHMAGGF2h0dHA6Ly9wa2kuaXNzLmxhbi9vY3NwMBsGA1UdEQQUMBKC
+C3BraS5pc3MubGFuggNwa2kwEwYDVR0lBAwwCgYIKwYBBQUHAwEwMgYDVR0fBCsw
+KTAnoCWgI4YhaHR0cDovL3BraS5pc3MubGFuL2NybHMvU1VCQ0EuY3JsMB0GA1Ud
+DgQWBBRaEnjEOMohdIsyQPm/2Zh+b9kViTAOBgNVHQ8BAf8EBAMCBaAwCgYIKoZI
+zj0EAwQDRwAwRAIgeKUK+Qxz9d7CIH2zDK8s9eLoRGk3LXKxy2+zgkXueAICIAxC
+gqD8gu9cBRE5tSjcYCK9Zn6we56iMVtjDKst1Y5y
+-----END CERTIFICATE-----
+-----BEGIN CERTIFICATE-----
+MIICcjCCAhegAwIBAgIUM9x9Da0t7LyjyUzQ26gfpS3Im1kwCgYIKoZIzj0EAwQw
+NjEMMAoGA1UEBhMDVVNBMQwwCgYDVQQKDANVRk8xGDAWBgNVBAMMD0NvbXBhbnkg
+Uk9PVCBDQTAeFw0yMzA2MjExNDU5MDNaFw0zODA2MTcxNDU5MDJaMDUxDDAKBgNV
+BAYTA1VTQTEMMAoGA1UECgwDVUZPMRcwFQYDVQQDDA5Db21wYW55IFNVQiBDQTBZ
+MBMGByqGSM49AgEGCCqGSM49AwEHA0IABA1tyGpFMf6fNOXc3U87YIJtI3tL9ZA1
+F5IABq7dRv4a8l58ZQwQLD9hD3AwvI+rBt7p8HGpGpH1RRVkMM3rI6ajggECMIH/
+MBIGA1UdEwEB/wQIMAYBAf8CAQAwHwYDVR0jBBgwFoAUQfL+EFkiBb53zzGlPwjW
+T6QW+rMwZAYIKwYBBQUHAQEEWDBWMC8GCCsGAQUFBzAChiNodHRwOi8vcGtpLmlz
+cy5sYW4vY2VydHMvUk9PVENBLmNydDAjBggrBgEFBQcwAYYXaHR0cDovL3BraS5p
+c3MubGFuL29jc3AwMwYDVR0fBCwwKjAooCagJIYiaHR0cDovL3BraS5pc3MubGFu
+L2NybHMvUk9PVENBLmNybDAdBgNVHQ4EFgQUOKzLq12rcbr9EGq5AZ3knDovCDAw
+DgYDVR0PAQH/BAQDAgGGMAoGCCqGSM49BAMEA0kAMEYCIQCNfsG1naKRNAF3GFnr
+5rlj8QN2yM+up91P5RQHJI4W2wIhAKk8r+Fj2zXytjaSGp48S0vlm8qlaR2aaJLd
+Awg8VWHu
+-----END CERTIFICATE-----
+-----BEGIN CERTIFICATE-----
+MIIB0zCCAXmgAwIBAgIUYBdw1t4l6/o7Q/a46ktDeYkYc+AwCgYIKoZIzj0EAwQw
+NjEMMAoGA1UEBhMDVVNBMQwwCgYDVQQKDANVRk8xGDAWBgNVBAMMD0NvbXBhbnkg
+Uk9PVCBDQTAgFw0yMzA2MjExNDUxNDBaGA8yMDUzMDYxMzE0NTEzOVowNjEMMAoG
+A1UEBhMDVVNBMQwwCgYDVQQKDANVRk8xGDAWBgNVBAMMD0NvbXBhbnkgUk9PVCBD
+QTBZMBMGByqGSM49AgEGCCqGSM49AwEHA0IABP4vZhTG0SswcMLILySu68vSHvpW
+aM2Ss6zPcW45pCehMrEh3o9khZm5dcywr6NwJXCcUw8mx4p+GGl2cucKUNKjYzBh
+MA8GA1UdEwEB/wQFMAMBAf8wHwYDVR0jBBgwFoAUQfL+EFkiBb53zzGlPwjWT6QW
++rMwHQYDVR0OBBYEFEHy/hBZIgW+d88xpT8I1k+kFvqzMA4GA1UdDwEB/wQEAwIB
+hjAKBggqhkjOPQQDBANIADBFAiBwS0KvQ90cYqAhbgWQxkLhvD+Wa1r4kDCy6v+J
+gTZukQIhANzUUTrUobkbrm2WtQl7ckrTF+p5QqhwDa1wfClyRDrU
+-----END CERTIFICATE-----
+
+```
+  
+</details>
+
+- The private key file should look like below:
+<details>
+
+<summary> management_pvkey.pem </summary>
+
+```
+-----BEGIN PRIVATE KEY-----
+MIGTAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBHkwdwIBAQQgG0zrNE8M2tLk0fVJ
+bqZILP58OWi6reT4ePhpN9Ri9+igCgYIKoZIzj0DAQehRANCAASFVe+mdIracQd2
+S12LU9FM+VxF7baSUyW6/+d3Sz9qK/XobYbb9NNj4vVm6kAm7rgct8NZpEGnFHtO
+i9GkFEwR
+-----END PRIVATE KEY-----
+```
+  
+</details>
+
+- You will also need to paste the Management CA (internal CA) for Certificate Authentication, so NGINX will forward the certificate to the internal Apache server of EJBCA.
+
+![Download_Management_CA](https://github.com/s0p4L1N/ejbca-docker-nginx/assets/92848369/277c19ba-9c5a-45e5-82b7-d97704ec291c)
+
+Now copy paste these three files into you nginx/certs folder on your host where the docker projet is. (`/opt/docker/ejbca/nginx/certs`)
+
+CA_Management.pem --> the internal 'ManagementCA' for Client Certificate Authentication verification
+management_cert.pem --> the TLS Server Certificate for the PKI itself (Nginx frontend)
+management_pvkey.pem --> the TLS Server private key 
+
+
+
+
+
+
 
