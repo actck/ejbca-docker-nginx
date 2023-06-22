@@ -21,8 +21,7 @@ With the SuperAdmin.p12, you can create the ROOT CA and SUB CA and then sign a W
 
 ## Action to do before running anything
 
-<details>
-<summary> Prerequites for RHEL 9/Rocky Linux 9/Alma Linux 9</summary>
+Prerequites for RHEL 9/Rocky Linux 9/Alma Linux 9
 
 - With root user:
 
@@ -96,7 +95,6 @@ Tree view of docker project:
 - **docker-compose.yml** is the main configuration file for this project
 - **nginx** is the folder that will contains, nginx configuration for EJBCA and the certificates
   
-</details>
 
 
 
