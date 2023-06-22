@@ -159,4 +159,4 @@ The created MyPKISubCA-G1 is displayed in the list of CAs.
 
 In this tutorial, you learned how to create certificate profiles, crypto tokens and keys, and bring that information together to create the Root CA and Sub CA in a two-tier public key infrastructure (PKI) hierarchy.
 
-Next, you can start issuing end entity certificates following the tutorial [Issue TLS server certificates with EJBCA.](https://doc.primekey.com/ejbca/tutorials-and-guides/tutorial-issue-tls-server-certificates-with-ejbca)
+Next, you can start issuing end entity certificates following the tutorial [Issue TLS server certificates with EJBCA.](https://github.com/s0p4L1N/ejbca-docker-nginx/blob/main/tutorial-issue-tls-server-certificates-with-ejbca.md)
