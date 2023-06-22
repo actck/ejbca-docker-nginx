@@ -418,6 +418,95 @@ server {
 ```
 </details>
 
+Now in the docker compose file
+
+Here's the complete configuration with NGINX:
+
+<details>
+
+<summary> docker-compose.yml </summary>
+
+```
+version: '3.9'
+services:
+  ejbca-database:
+    container_name: ejbca-database
+    image: mariadb:latest
+    restart: always
+    #check your user id with the command "id", applying ID user as owner on volume, otherwise systemd-coredump has ownership
+    user: "1001:1001"
+    networks:
+      - database-bridge
+    environment:
+      - MYSQL_ROOT_PASSWORD=foo123
+      - MYSQL_DATABASE=ejbca
+      - MYSQL_USER=ejbca
+      - MYSQL_PASSWORD=ejbca
+    volumes:
+      - ./data:/var/lib/mysql:rw
+  ejbca-node1:
+    hostname: ejbca-node1
+    container_name: ejbca
+    image: keyfactor/ejbca-ce:latest
+    depends_on:
+      - ejbca-database
+    networks:
+      - database-bridge
+      - ejbca-bridge
+    environment:
+      - DATABASE_JDBC_URL=jdbc:mariadb://ejbca-database:3306/ejbca?characterEncoding=UTF-8
+      - LOG_LEVEL_APP=INFO
+      - LOG_LEVEL_SERVER=INFO
+      - TLS_SETUP_ENABLED=true
+      - DATABASE_USER=ejbca
+      - DATABASE_PASSWORD=ejbca
+      - PASSWORD_ENCRYPTION_KEY=changeit
+      - CA_KEYSTOREPASS=changeit
+      - EJBCA_CLI_DEFAULTPASSWORD=ejbca
+      - EJBCA_CLI_DEFAULT_USERNAME=ejbca
+      - EJBCA_CLI_DEFAULT_PASSWORD=ejbca
+      - TZ=Europe/Paris
+      - PROXY_HTTP_BIND=0.0.0.0
+
+  nginx:
+    hostname: ejbca-proxy
+    container_name: ejbca-proxy
+    image: nginx
+    depends_on:
+      - ejbca-node1
+    volumes:
+      - ./nginx/conf/ejbca.conf:/etc/nginx/conf.d/ejbca.conf
+      - ./nginx/certs:/etc/nginx/certs/
+      - /run/docker.sock:/var/run/docker.sock:ro
+   ports:
+      - 80:80
+      - 443:443
+    restart: always
+   networks:
+      - proxy-bridge
+      - ejbca-bridge
+
+networks:
+  database-bridge:
+    driver: bridge
+  ejbca-bridge:
+    driver: bridge
+  proxy-bride:
+    driver: bridge
+```
+  
+</details>
+
+What change between old docker-compose and the new one for NGINX
+
+- For the ejbca-node1 service:
+  - addedd PROXY_HTTP_BIND=0.0.0.0 to the environment block to inform ejbca that there is a proxy as frontend
+  - removed the ports block as it should not open the port to the outside world
+ 
+- Added NGINX code block
+- added nginx conf to proxypass to the container
+- Added a network for NGINX
+ 
 
 
 
