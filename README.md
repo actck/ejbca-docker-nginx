@@ -175,7 +175,7 @@ networks:
 docker compose up -d
 ```
 
-### Enrolment
+## Second step -  Enrolment
 - Check the logs after it is started
 
 ```
