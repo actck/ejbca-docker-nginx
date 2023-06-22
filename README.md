@@ -2,31 +2,25 @@
 Steps to deploy EJBCA first without proxy, then deploy the proxy and EJBCA behind it in production like and on premise.
 
 When i started my journey to deploy EJBCA CE in a production like environement, I wanted to use proxy directly to use it as fronted for EJBCA.
-What I did not understand was that we need first to start EJBCA container once and generate the Management CA and the SuperAdmin.p12. 
+What I did not understand was that we need first to start EJBCA container once and generate the Management CA and the SuperAdmin.p12. And only after that we can setup nginx as frontend. 
 
 With the SuperAdmin.p12, you can create the ROOT CA and SUB CA and then sign a Web TLS Certificate and and the .pem cert and .pem key to NGINX.
 
-Management CA ---- signed ----> superadmin.p12 
+TL;DR
 
-Tree view of docker project:
+1. Prerequisites
+2. Run EJBCA without Nginx
+3. Creation of ROOT, SUB CA and TLS Profile and Certs
+4. Run EJBCA with NGINX
+5. Done
 
-```
-├── data
-├── docker-compose.yml
-├── nginx
-│──────── ├── certs
-│──────── │──────── ├── management_CA.pem
-│──────── │──────── ├── mgmt_cert.pem
-│──────── │──────── └── mgmt_pvkey.pem
-│──────── └── conf
-│────────     └── ejbca.conf
-```
 
-- **data** will be the volume for the database, even if the container is deleted, the data will remain
-- **docker-compose.yml** is the main configuration file for this project
-- **nginx** is the folder that will contains, nginx configuration for EJBCA and the certificates
 
-## Prerequisite for the host, here i'm on Rocky Linux 9:
+
+## Action to do before running anything
+
+<details>
+<summary> Prerequites for RHEL 9/Rocky Linux 9/Alma Linux 9</summary>
 
 - With root user:
 
@@ -81,6 +75,28 @@ d. Create tree folder project and go inside
 mkdir -p docker/ejbca/{data,nginx/{certs,conf}}
 cd docker/ejbca
 ```
+
+Tree view of docker project:
+
+```
+├── data
+├── docker-compose.yml
+├── nginx
+│──────── ├── certs
+│──────── │──────── ├── management_CA.pem
+│──────── │──────── ├── mgmt_cert.pem
+│──────── │──────── └── mgmt_pvkey.pem
+│──────── └── conf
+│────────     └── ejbca.conf
+```
+
+- **data** will be the volume for the database, even if the container is deleted, the data will remain
+- **docker-compose.yml** is the main configuration file for this project
+- **nginx** is the folder that will contains, nginx configuration for EJBCA and the certificates
+  
+</details>
+
+
 
 ## Initial configuration - EJBCA without proxy
 To start with EJBCA and docker compose, I've followed the official documentation: https://doc.primekey.com/ejbca/tutorials-and-guides/tutorial-start-out-with-ejbca-docker-container
@@ -509,7 +525,25 @@ What changes between old docker-compose and the new one for NGINX
 - added nginx conf to proxypass to the container
 - Added a network for NGINX
 
-  
+  Now, without removing the containers, just execute `docker compose up -d` it will create the nginx container and recreate ejbca container according to the new configuration.
+
+```
+[+] Running 8/8
+ ✔ nginx 7 layers [⣿⣿⣿⣿⣿⣿⣿]      0B/0B      Pulled                                                                                                                                                      14.1s
+   ✔ 5b5fe70539cd Pull complete                                                                                                                                                                          8.8s
+   ✔ 441a1b465367 Pull complete                                                                                                                                                                         11.5s
+   ✔ 3b9543f2b500 Pull complete                                                                                                                                                                         11.5s
+   ✔ ca89ed5461a9 Pull complete                                                                                                                                                                         11.5s
+   ✔ b0e1283145af Pull complete                                                                                                                                                                         11.6s
+   ✔ 4b98867cde79 Pull complete                                                                                                                                                                         11.6s
+   ✔ 4a85ce26214d Pull complete                                                                                                                                                                         11.6s
+[+] Building 0.0s (0/0)
+[+] Running 4/4
+ ✔ Network ejbca_proxy-bridge  Created                                                                                                                                                                   0.5s
+ ✔ Container ejbca-database    Running                                                                                                                                                                   0.0s
+ ✔ Container ejbca             Started                                                                                                                                                                  18.1s
+ ✔ Container ejbca-proxy       Started 
+ ```
 
 
 
