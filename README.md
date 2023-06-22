@@ -468,6 +468,7 @@ services:
       - TZ=Europe/Paris
       - PROXY_HTTP_BIND=0.0.0.0
 
+
   nginx:
     hostname: ejbca-proxy
     container_name: ejbca-proxy
@@ -478,35 +479,38 @@ services:
       - ./nginx/conf/ejbca.conf:/etc/nginx/conf.d/ejbca.conf
       - ./nginx/certs:/etc/nginx/certs/
       - /run/docker.sock:/var/run/docker.sock:ro
-   ports:
+    ports:
       - 80:80
       - 443:443
     restart: always
-   networks:
+    networks:
       - proxy-bridge
       - ejbca-bridge
+
 
 networks:
   database-bridge:
     driver: bridge
   ejbca-bridge:
     driver: bridge
-  proxy-bride:
+  proxy-bridge:
     driver: bridge
 ```
   
 </details>
 
-What change between old docker-compose and the new one for NGINX
+What changes between old docker-compose and the new one for NGINX
 
 - For the ejbca-node1 service:
   - addedd PROXY_HTTP_BIND=0.0.0.0 to the environment block to inform ejbca that there is a proxy as frontend
   - removed the ports block as it should not open the port to the outside world
  
-- Added NGINX code block
+- Added NGINX service code block
 - added nginx conf to proxypass to the container
 - Added a network for NGINX
- 
+
+  
+
 
 
 
